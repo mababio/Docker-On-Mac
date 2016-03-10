@@ -46,10 +46,10 @@ def create_docker_machine_VM():
 	bash_profile_path = home_dir + '/.bash_profile'
 
 	with open(bash_profile_path, "a") as myfile:
-    myfile.write("$(docker-machine env default)")
+		myfile.write("$(docker-machine env default)")
 
     ## then source bash_profile, so the lastest revisions are applied
-    os.system('source .bash_profile')
+	os.system('source .bash_profile')
 
 
 	return
@@ -58,7 +58,7 @@ def create_docker_machine_VM():
 def install_docker():
 	install_docker_machine()
 	create_docker_machine_VM()
-return
+	return
 
 
-
+install_docker()

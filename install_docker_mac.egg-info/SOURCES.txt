@@ -1,0 +1,7 @@
+setup.py
+install_docker_mac.egg-info/PKG-INFO
+install_docker_mac.egg-info/SOURCES.txt
+install_docker_mac.egg-info/dependency_links.txt
+install_docker_mac.egg-info/not-zip-safe
+install_docker_mac.egg-info/requires.txt
+install_docker_mac.egg-info/top_level.txt
