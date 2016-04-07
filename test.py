@@ -20,23 +20,32 @@ def install_docker():
 
 
 
-def install_docker_machine():
+def install_Docker_Full():
+
 	if check_dependencies() :
-		operating_system_name = os.uname()[0]
-		machine_hardware_name = os.uname()[4]
-		url = 'https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-'+ os.uname()[0] + '-'+ os.uname()[4]
-		new_file_path = "/usr/local/bin/docker-machine"
+		print 'Your system has virtualbox'
+		input = raw_input('Your system is missing  the docker suite, Would like us to install it? (Y/N)	')
 
-		file_name = wget.download(url)
-		tmp_file_path = os.getcwd() +'/' +file_name 
+		if input == 'y' or 'Y':
+			url  = 'https://github.com/docker/toolbox/releases/download/v1.10.3/DockerToolbox-1.10.3.pkg'
+			file_name = wget.download(url)
+			#os.system('hdiutil attach '+file_name)
+			os.system('installer -package ' +file_name + ' -target /')
+			#os.system('hdiutil detach /Volumes/DockerToolbox')
+			return True
 
-		os.rename(tmp_file_path, new_file_path)
-		st = os.stat(new_file_path)
-		os.chmod(new_file_path, st.st_mode | st.st_mode | 0111)
-	else:
-		print 'Missing dependencies: virtualbox'
+		if input == 'n' or 'N':
+			print(' Script will stop here. Please install virtualbox')
+			return False
+		
+		else: 
+			print('Wrong input')
+			return False
 
-	return
+		return
+
+	else : 
+		print ' You do not have the min requiremnts to procede'
 
 
 
@@ -46,7 +55,7 @@ def check_dependencies():
 	 ## dependencies: virtualbox
 	print 'Checking for dependencies'
 
-	if not check_for_command('virtualbox'):
+	if not check_for_command('VirtualBox'):
 		install_virtualbox()
 
 	return True
@@ -59,6 +68,7 @@ def check_for_command(command):
 	try :
 		command_output  = subprocess.check_output(['which',command])
 	except subprocess.CalledProcessError as exc:
+		print 'can not find' + command
 		return False
 	else: 
 		return  not isEmptyString(command_output)
@@ -66,10 +76,8 @@ def check_for_command(command):
 
 def isEmptyString(str):
         str = str.strip()
-        if not str:
-                return True
-        else:
-                return False
+        print 'str: for testing --> ' + str
+        return not str
 
 
 def install_virtualbox():
@@ -99,7 +107,7 @@ def install_virtualbox():
 def create_docker_machine_VM():
 
 	if check_for_command('docker-machine'):
-
+		print 'docker-machine is installed. We can procede'
 		os.system('docker-machine create --driver virtualbox default')
 		## add eval "$(docker-machine env default)" to bash_profile
 		print('Appending docker variables to bash_profile')
@@ -117,5 +125,6 @@ def create_docker_machine_VM():
 
 # Call main function
 #install_docker()
-
 create_docker_machine_VM()
+#install_Docker_Full()
+#check_for_command('VirtualBox')
