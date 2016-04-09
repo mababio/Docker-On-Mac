@@ -14,7 +14,7 @@ def install_docker():
 	print 'It will take care of most of the dependencies'
 	print 'Do not be  after to create a bug ticket in github'
 
-	install_docker_machine()
+	install_Docker_Full()
 	create_docker_machine_VM()
 	return
 
@@ -30,7 +30,7 @@ def install_Docker_Full():
 			url  = 'https://github.com/docker/toolbox/releases/download/v1.10.3/DockerToolbox-1.10.3.pkg'
 			file_name = wget.download(url)
 			#os.system('hdiutil attach '+file_name)
-			os.system('installer -package ' +file_name + ' -target /')
+			os.system('sudo installer -package ' +file_name + ' -target /')
 			#os.system('hdiutil detach /Volumes/DockerToolbox')
 			return True
 
@@ -87,9 +87,9 @@ def install_virtualbox():
 	if input == 'y' or 'Y':
 		url = 'http://download.virtualbox.org/virtualbox/5.0.16/VirtualBox-5.0.16-105871-OSX.dmg'
 		file_name = wget.download(url)
-		os.system('hdiutil attach '+file_name)
-		os.system('installer -package /Volumes/VirtualBox/VirtualBox.pkg -target /')
-		os.system('hdiutil detach /Volumes/VirtualBox')
+		os.system('sudo hdiutil attach '+file_name)
+		os.system('sudo installer -package /Volumes/VirtualBox/VirtualBox.pkg -target /')
+		os.system('sudo hdiutil detach /Volumes/VirtualBox')
 		return True
 
 	if input == 'n' or 'N':
@@ -108,7 +108,7 @@ def create_docker_machine_VM():
 
 	if check_for_command('docker-machine'):
 		print 'docker-machine is installed. We can procede'
-		os.system('docker-machine create --driver virtualbox default')
+		os.system('docker-machine create --driver virtualbox default') 
 		## add eval "$(docker-machine env default)" to bash_profile
 		print('Appending docker variables to bash_profile')
 		home_dir = os.path.expanduser('~')
@@ -124,7 +124,5 @@ def create_docker_machine_VM():
 	return
 
 # Call main function
-#install_docker()
-create_docker_machine_VM()
-#install_Docker_Full()
-#check_for_command('VirtualBox')
+install_docker()
+#create_docker_machine_VM()
